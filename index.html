@@ -3,22 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Физика: Единицы измерения</title>
+    <title>Физика: Единицы измерения и конвертация</title>
     
     <!-- Reveal.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
-    
-    <!-- Custom Theme -->
-    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Кастомные стили -->
     <style>
-        /* ФИКСЫ ДЛЯ КОМПАКТНЫХ СЛАЙДОВ */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
         .reveal {
-            font-size: 20px !important; /* Уменьшаем общий размер текста */
+            width: 100vw;
+            height: 100vh;
         }
         
         .reveal .slides {
@@ -26,545 +41,797 @@
             height: 100% !important;
             top: 0 !important;
             left: 0 !important;
+            transform: none !important;
+            text-align: left;
         }
         
         .reveal .slides section {
-            padding: 10px !important;
-            box-sizing: border-box;
+            padding: 20px 40px;
+            width: 100%;
+            height: 100%;
             display: flex !important;
             flex-direction: column;
             justify-content: center;
-            min-height: 100vh;
-            overflow: visible !important;
+            box-sizing: border-box;
         }
         
-        /* Уменьшаем заголовки */
-        .reveal h1 { font-size: 2.2em !important; margin-bottom: 0.5em !important; }
-        .reveal h2 { font-size: 1.8em !important; margin-bottom: 0.5em !important; }
-        .reveal h3 { font-size: 1.4em !important; margin-bottom: 0.5em !important; }
-        .reveal h4 { font-size: 1.2em !important; }
+        /* Уменьшаем размеры текста */
+        .reveal h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
         
-        /* Компактные списки */
+        .reveal h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+        }
+        
+        .reveal h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.6rem;
+        }
+        
+        .reveal p, .reveal li {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+        
         .reveal ul, .reveal ol {
-            margin: 0.3em 0 !important;
-            padding-left: 1.2em !important;
+            margin-left: 1.5rem;
+            margin-bottom: 0.8rem;
         }
         
-        .reveal li {
-            margin: 0.2em 0 !important;
-            font-size: 0.9em !important;
-            line-height: 1.3 !important;
-        }
-        
-        /* Уменьшаем отступы */
-        .reveal p {
-            margin: 0.3em 0 !important;
-            line-height: 1.3 !important;
-        }
-        
-        /* Компактные конвертеры */
-        .compact-converter {
-            max-width: 700px;
-            margin: 10px auto;
-            padding: 10px;
-        }
-        
-        .compact-input {
-            padding: 6px !important;
-            font-size: 0.9em !important;
-            margin: 3px 0 !important;
-        }
-        
-        .compact-btn {
-            padding: 8px 15px !important;
-            font-size: 0.9em !important;
-            margin: 5px 0 !important;
-        }
-        
-        .compact-results {
-            margin-top: 10px !important;
-            gap: 8px !important;
-        }
-        
-        .compact-result {
-            padding: 8px !important;
-            font-size: 0.9em !important;
-        }
-        
-        /* Слайд с содержанием */
+        /* Стили для слайда с содержанием */
         .toc-slide {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .toc-title {
             text-align: center;
+            margin-bottom: 2rem !important;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
         }
         
         .toc-item {
-            display: block;
-            margin: 8px auto;
-            padding: 8px;
-            background: #f5f5f5;
-            border-radius: 5px;
-            max-width: 500px;
-            font-size: 0.95em;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary-color);
         }
         
-        /* Убираем скролл - всё должно помещаться */
-        .no-scroll {
-            overflow: hidden !important;
-            max-height: 85vh !important;
+        .toc-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            margin-right: 10px;
+            font-size: 0.9rem;
         }
         
-        /* Компактный решатель задач */
-        .compact-solver {
-            max-width: 600px;
+        /* Примеры и формулы */
+        .example-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin: 10px 0;
+        }
+        
+        .formula-box {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        
+        /* Конвертеры */
+        .converter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .convert-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .convert-btn:hover {
+            background: #2980b9;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Изображения */
+        .fun-image {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
             margin: 10px auto;
+            display: block;
         }
         
-        .compact-solver input {
-            padding: 5px !important;
-            margin: 2px 0 !important;
+        .caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        /* Решатель задач */
+        .solver {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        
+        .solution-output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .answer {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #ddd;
+        }
+        
+        /* Информация об авторе */
+        .author-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .reveal .slides section {
+                padding: 15px 20px;
+            }
+            
+            .reveal h1 {
+                font-size: 1.8rem;
+            }
+            
+            .reveal h2 {
+                font-size: 1.5rem;
+            }
+            
+            .reveal h3 {
+                font-size: 1.3rem;
+            }
+            
+            .reveal p, .reveal li {
+                font-size: 1rem;
+            }
+            
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+        
+        /* Убираем полосы прокрутки */
+        .reveal .slides section::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .reveal .slides section {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Индикатор прогресса */
+        .progress {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 <body>
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <div class="reveal">
         <div class="slides">
             <!-- СЛАЙД 1: ТИТУЛЬНЫЙ -->
-            <section class="no-scroll">
-                <h1>Физика</h1>
-                <h3>Единицы измерения и конвертация</h3>
-                <div style="margin-top: 20px;">
-                    <p><strong>Ярышина Даниэла Павловна</strong></p>
-                    <p>Группа: Микн 4 курс</p>
-                    <p>Email: ultimate2588@gmail.com</p>
+            <section>
+                <div class="slide-content">
+                    <h1>Физика: Единицы измерения и конвертация</h1>
+                    <h2>Учебная презентация</h2>
+                    <div class="author-info">
+                        <p><strong>Ярышина Даниэла Павловна</strong></p>
+                        <p>Группа: Микн 4 курс</p>
+                        <p>Email: ultimate2588@gmail.com</p>
+                    </div>
                 </div>
             </section>
 
             <!-- СЛАЙД 2: СОДЕРЖАНИЕ -->
-            <section class="toc-slide no-scroll">
-                <h2>Содержание презентации</h2>
-                <div style="margin: 15px 0;">
-                    <div class="toc-item">1. Единицы измерения (7 категорий)</div>
-                    <div class="toc-item">2. Конвертер температуры</div>
-                    <div class="toc-item">3. Конвертер длины</div>
-                    <div class="toc-item">4. Конвертер массы</div>
-                    <div class="toc-item">5. Конвертер скорости</div>
-                    <div class="toc-item">6. Задачи на скорость</div>
-                    <div class="toc-item">7. Весёлые картинки</div>
+            <section class="toc-slide">
+                <div class="slide-content">
+                    <h2 class="toc-title">Содержание презентации</h2>
+                    <ul class="toc-list">
+                        <li class="toc-item">
+                            <span class="toc-number">1</span>
+                            Единицы измерения
+                        </li>
+                        <li class="toc-item">
+                            <span class="toc-number">2</span>
+                            Конвертеры величин
+                        </li>
+                        <li class="toc-item">
+                            <span class="toc-number">3</span>
+                            Задачи на скорость
+                        </li>
+                        <li class="toc-item">
+                            <span class="toc-number">4</span>
+                            Весёлые картинки
+                        </li>
+                        <li class="toc-item">
+                            <span class="toc-number">5</span>
+                            Заключение
+                        </li>
+                    </ul>
+                    <p style="text-align: center; margin-top: 30px; font-size: 1rem;">
+                        Используйте стрелки на клавиатуре для навигации
+                    </p>
                 </div>
-                <p style="font-size: 0.8em; margin-top: 20px; color: #666;">
-                    Используйте стрелки ← → для навигации
-                </p>
             </section>
 
             <!-- РАЗДЕЛ 1: ЕДИНИЦЫ ИЗМЕРЕНИЯ -->
-            <section class="no-scroll">
-                <h2>Единицы измерения</h2>
-                <h4>Основные физические величины</h4>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                    <div>
-                        <p><strong>Скорость:</strong></p>
-                        <ul>
-                            <li>м/с (метр/секунда)</li>
-                            <li>км/ч (километр/час)</li>
-                            <li>узлы (морские)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Температура:</strong></p>
-                        <ul>
-                            <li>°C (Цельсий)</li>
-                            <li>K (Кельвин)</li>
-                            <li>°F (Фаренгейт)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Длина:</strong></p>
-                        <ul>
-                            <li>м (метр)</li>
-                            <li>км (километр)</li>
-                            <li>мили, футы</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Масса:</strong></p>
-                        <ul>
-                            <li>кг (килограмм)</li>
-                            <li>г (грамм)</li>
-                            <li>фунты, унции</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+            <section>
+                <section>
+                    <h2>Единицы измерения</h2>
+                    <p>Основные физические величины и их единицы</p>
+                </section>
 
-            <!-- СКОРОСТЬ подробнее -->
-            <section class="no-scroll">
-                <h3>Скорость</h3>
-                <ul>
-                    <li><strong>м/с</strong> - базовая единица СИ</li>
-                    <li><strong>км/ч</strong> - транспорт, погода</li>
-                    <li><strong>узлы</strong> - морская навигация</li>
-                    <li><strong>махи</strong> - авиация</li>
-                    <li><strong>c</strong> - скорость света</li>
-                </ul>
-                <div style="background: #e8f4fc; padding: 8px; border-radius: 5px; margin-top: 10px;">
-                    <p><strong>Пример:</strong> 60 км/ч = 16.67 м/с</p>
-                </div>
-            </section>
-
-            <!-- ТЕМПЕРАТУРА подробнее -->
-            <section class="no-scroll">
-                <h3>Температура</h3>
-                <ul>
-                    <li><strong>°C</strong> - бытовые измерения</li>
-                    <li><strong>K</strong> - научные расчёты</li>
-                    <li><strong>°F</strong> - США, приборы</li>
-                </ul>
-                <div style="background: #e8f4fc; padding: 8px; border-radius: 5px; margin-top: 10px;">
-                    <p><strong>Формулы:</strong></p>
-                    <p>K = °C + 273.15</p>
-                    <p>°F = °C × 9/5 + 32</p>
-                </div>
-            </section>
-
-            <!-- ДЛИНА подробнее -->
-            <section class="no-scroll">
-                <h3>Длина</h3>
-                <ul>
-                    <li><strong>м</strong> - базовая единица СИ</li>
-                    <li><strong>км</strong> - географические расстояния</li>
-                    <li><strong>см</strong> - бытовые измерения</li>
-                    <li><strong>миля</strong> - 1609.34 м</li>
-                    <li><strong>световой год</strong> - астрономия</li>
-                </ul>
-            </section>
-
-            <!-- МАССА подробнее -->
-            <section class="no-scroll">
-                <h3>Масса</h3>
-                <ul>
-                    <li><strong>кг</strong> - базовая единица СИ</li>
-                    <li><strong>г</strong> - кулинария, химия</li>
-                    <li><strong>т</strong> - промышленность</li>
-                    <li><strong>фунт</strong> - 0.4536 кг</li>
-                    <li><strong>унция</strong> - 28.35 г</li>
-                </ul>
-            </section>
-
-            <!-- ПЛОЩАДЬ, ОБЪЕМ, ДАВЛЕНИЕ в одном слайде -->
-            <section class="no-scroll">
-                <h3>Площадь, Объём, Давление</h3>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
-                    <div>
-                        <p><strong>Площадь:</strong></p>
-                        <ul>
-                            <li>м² (кв. метр)</li>
-                            <li>км² (кв. километр)</li>
-                            <li>га (гектар)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p><strong>Объём:</strong></p>
-                        <ul>
-                            <li>м³ (куб. метр)</li>
-                            <li>л (литр)</li>
-                            <li>мл (миллилитр)</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 15px;">
-                    <p><strong>Давление:</strong></p>
+                <!-- СКОРОСТЬ -->
+                <section>
+                    <h3>Скорость</h3>
                     <ul>
-                        <li>Па (паскаль)</li>
-                        <li>кПа (килопаскаль)</li>
-                        <li>бар, атм, мм рт.ст.</li>
+                        <li><strong>м/с</strong> (метр в секунду) - базовая единица СИ</li>
+                        <li><strong>км/ч</strong> (километр в час) - транспорт, погода</li>
+                        <li><strong>узлы</strong> (1 узел = 1 морская миля/ч) - морская навигация</li>
+                        <li><strong>махи</strong> (число Маха) - авиация (1 Мах ≈ 1225 км/ч)</li>
                     </ul>
-                </div>
+                    <div class="example-box">
+                        <p><strong>Пример:</strong> Ограничение скорости в городе — 60 км/ч ≈ 16.67 м/с</p>
+                    </div>
+                </section>
+
+                <!-- ТЕМПЕРАТУРА -->
+                <section>
+                    <h3>Температура</h3>
+                    <ul>
+                        <li><strong>°C</strong> (градус Цельсия) - бытовые измерения</li>
+                        <li><strong>K</strong> (кельвин) - научные расчёты</li>
+                        <li><strong>°F</strong> (градус Фаренгейта) - США, бытовые приборы</li>
+                    </ul>
+                    <div class="formula-box">
+                        <p><strong>Формулы конвертации:</strong></p>
+                        <p>K = °C + 273.15</p>
+                        <p>°F = °C × 9/5 + 32</p>
+                    </div>
+                </section>
+
+                <!-- ДЛИНА -->
+                <section>
+                    <h3>Длина</h3>
+                    <ul>
+                        <li><strong>м</strong> (метр) - базовая единица СИ</li>
+                        <li><strong>км</strong> (километр) - географические расстояния</li>
+                        <li><strong>см</strong> (сантиметр) - бытовые измерения</li>
+                        <li><strong>миля</strong> (1 миля = 1609.34 м) - США, Великобритания</li>
+                    </ul>
+                    <div class="example-box">
+                        <p><strong>Пример:</strong> Диаметр Земли ≈ 12 742 км = 12 742 000 м</p>
+                    </div>
+                </section>
+
+                <!-- МАССА -->
+                <section>
+                    <h3>Масса</h3>
+                    <ul>
+                        <li><strong>кг</strong> (килограмм) - базовая единица СИ</li>
+                        <li><strong>г</strong> (грамм) - кулинария, химия</li>
+                        <li><strong>т</strong> (тонна) - промышленность</li>
+                        <li><strong>фунт</strong> (1 lb ≈ 0.4536 кг) - США, Великобритания</li>
+                    </ul>
+                    <div class="example-box">
+                        <p><strong>Пример:</strong> Средний вес человека — 70 кг ≈ 154.3 фунта</p>
+                    </div>
+                </section>
             </section>
 
             <!-- РАЗДЕЛ 2: КОНВЕРТЕРЫ -->
-            <section class="no-scroll">
-                <h2>Конвертер температуры</h2>
-                <div class="compact-converter">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="number" id="temp-input" class="compact-input" placeholder="Значение" value="20" step="0.1" style="flex: 1;">
-                        <select id="temp-from" class="compact-input" style="width: 150px;">
-                            <option value="c">°C (Цельсий)</option>
-                            <option value="f">°F (Фаренгейт)</option>
-                            <option value="k">K (Кельвин)</option>
-                        </select>
-                    </div>
-                    
-                    <button id="temp-convert" class="compact-btn">
-                        <i class="fas fa-sync-alt"></i> Конвертировать
-                    </button>
-                    
-                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px;">
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">°C</div>
-                            <div id="temp-c" style="color: #2ecc71; font-weight: bold;">20.00</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">°F</div>
-                            <div id="temp-f" style="color: #2ecc71; font-weight: bold;">68.00</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">K</div>
-                            <div id="temp-k" style="color: #2ecc71; font-weight: bold;">293.15</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <section>
+                <section>
+                    <h2>Конвертеры величин</h2>
+                    <p>Интерактивные инструменты для перевода единиц</p>
+                </section>
 
-            <!-- КОНВЕРТЕР ДЛИНЫ -->
-            <section class="no-scroll">
-                <h2>Конвертер длины</h2>
-                <div class="compact-converter">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="number" id="length-input" class="compact-input" placeholder="Значение" value="100" step="0.01" style="flex: 1;">
-                        <select id="length-from" class="compact-input" style="width: 150px;">
-                            <option value="m">Метры (м)</option>
-                            <option value="km">Километры (км)</option>
-                            <option value="mile">Мили</option>
-                        </select>
-                    </div>
-                    
-                    <button id="length-convert" class="compact-btn">
-                        <i class="fas fa-sync-alt"></i> Конвертировать
-                    </button>
-                    
-                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Метры</div>
-                            <div id="length-m" style="color: #2ecc71; font-weight: bold;">100.00</div>
+                <!-- КОНВЕРТЕР ТЕМПЕРАТУРЫ -->
+                <section>
+                    <h3>Конвертер температуры</h3>
+                    <div class="converter">
+                        <div class="input-group">
+                            <input type="number" id="temp-input" placeholder="Введите значение" step="0.1" value="20">
+                            <select id="temp-from">
+                                <option value="c">°C (Цельсий)</option>
+                                <option value="f">°F (Фаренгейт)</option>
+                                <option value="k">K (Кельвин)</option>
+                            </select>
                         </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Километры</div>
-                            <div id="length-km" style="color: #2ecc71; font-weight: bold;">0.10</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Мили</div>
-                            <div id="length-mile" style="color: #2ecc71; font-weight: bold;">0.06</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Футы</div>
-                            <div id="length-ft" style="color: #2ecc71; font-weight: bold;">328.08</div>
+                        
+                        <button id="temp-convert" class="convert-btn">
+                            <i class="fas fa-sync-alt"></i> Конвертировать
+                        </button>
+                        
+                        <div class="results">
+                            <div class="result-item">
+                                <span>°C:</span>
+                                <span id="temp-c">20.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>°F:</span>
+                                <span id="temp-f">68.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>K:</span>
+                                <span id="temp-k">293.15</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- КОНВЕРТЕР МАССЫ -->
-            <section class="no-scroll">
-                <h2>Конвертер массы</h2>
-                <div class="compact-converter">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="number" id="mass-input" class="compact-input" placeholder="Значение" value="1" step="0.01" style="flex: 1;">
-                        <select id="mass-from" class="compact-input" style="width: 150px;">
-                            <option value="kg">Килограммы (кг)</option>
-                            <option value="g">Граммы (г)</option>
-                            <option value="lb">Фунты (lb)</option>
-                        </select>
+                <!-- КОНВЕРТЕР ДЛИНЫ -->
+                <section>
+                    <h3>Конвертер длины</h3>
+                    <div class="converter">
+                        <div class="input-group">
+                            <input type="number" id="length-input" placeholder="Введите значение" step="0.01" value="100">
+                            <select id="length-from">
+                                <option value="m">Метры (м)</option>
+                                <option value="km">Километры (км)</option>
+                                <option value="mile">Мили</option>
+                                <option value="ft">Футы (ft)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="length-convert" class="convert-btn">
+                            <i class="fas fa-sync-alt"></i> Конвертировать
+                        </button>
+                        
+                        <div class="results">
+                            <div class="result-item">
+                                <span>Метры:</span>
+                                <span id="length-m">100.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Километры:</span>
+                                <span id="length-km">0.10</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Мили:</span>
+                                <span id="length-mile">0.06</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Футы:</span>
+                                <span id="length-ft">328.08</span>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <button id="mass-convert" class="compact-btn">
-                        <i class="fas fa-sync-alt"></i> Конвертировать
-                    </button>
-                    
-                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Килограммы</div>
-                            <div id="mass-kg" style="color: #2ecc71; font-weight: bold;">1.00</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Граммы</div>
-                            <div id="mass-g" style="color: #2ecc71; font-weight: bold;">1000.00</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Фунты</div>
-                            <div id="mass-lb" style="color: #2ecc71; font-weight: bold;">2.20</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">Унции</div>
-                            <div id="mass-oz" style="color: #2ecc71; font-weight: bold;">35.27</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- КОНВЕРТЕР СКОРОСТИ -->
-            <section class="no-scroll">
-                <h2>Конвертер скорости</h2>
-                <div class="compact-converter">
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <input type="number" id="speed-input" class="compact-input" placeholder="Значение" value="10" step="0.1" style="flex: 1;">
-                        <select id="speed-from" class="compact-input" style="width: 150px;">
-                            <option value="ms">м/с</option>
-                            <option value="kmh">км/ч</option>
-                            <option value="mph">миль/ч</option>
-                        </select>
+                <!-- КОНВЕРТЕР МАССЫ -->
+                <section>
+                    <h3>Конвертер массы</h3>
+                    <div class="converter">
+                        <div class="input-group">
+                            <input type="number" id="mass-input" placeholder="Введите значение" step="0.01" value="1">
+                            <select id="mass-from">
+                                <option value="kg">Килограммы (кг)</option>
+                                <option value="g">Граммы (г)</option>
+                                <option value="lb">Фунты (lb)</option>
+                                <option value="oz">Унции (oz)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="mass-convert" class="convert-btn">
+                            <i class="fas fa-sync-alt"></i> Конвертировать
+                        </button>
+                        
+                        <div class="results">
+                            <div class="result-item">
+                                <span>Килограммы:</span>
+                                <span id="mass-kg">1.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Граммы:</span>
+                                <span id="mass-g">1000.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Фунты:</span>
+                                <span id="mass-lb">2.20</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Унции:</span>
+                                <span id="mass-oz">35.27</span>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <button id="speed-convert" class="compact-btn">
-                        <i class="fas fa-sync-alt"></i> Конвертировать
-                    </button>
-                    
-                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">м/с</div>
-                            <div id="speed-ms" style="color: #2ecc71; font-weight: bold;">10.00</div>
+                </section>
+
+                <!-- КОНВЕРТЕР СКОРОСТИ -->
+                <section>
+                    <h3>Конвертер скорости</h3>
+                    <div class="converter">
+                        <div class="input-group">
+                            <input type="number" id="speed-input" placeholder="Введите значение" step="0.1" value="10">
+                            <select id="speed-from">
+                                <option value="ms">м/с</option>
+                                <option value="kmh">км/ч</option>
+                                <option value="mph">миль/ч</option>
+                                <option value="knot">узлы</option>
+                            </select>
                         </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">км/ч</div>
-                            <div id="speed-kmh" style="color: #2ecc71; font-weight: bold;">36.00</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">миль/ч</div>
-                            <div id="speed-mph" style="color: #2ecc71; font-weight: bold;">22.37</div>
-                        </div>
-                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
-                            <div style="font-weight: bold;">узлы</div>
-                            <div id="speed-knot" style="color: #2ecc71; font-weight: bold;">19.44</div>
+                        
+                        <button id="speed-convert" class="convert-btn">
+                            <i class="fas fa-sync-alt"></i> Конвертировать
+                        </button>
+                        
+                        <div class="results">
+                            <div class="result-item">
+                                <span>м/с:</span>
+                                <span id="speed-ms">10.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>км/ч:</span>
+                                <span id="speed-kmh">36.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>миль/ч:</span>
+                                <span id="speed-mph">22.37</span>
+                            </div>
+                            <div class="result-item">
+                                <span>узлы:</span>
+                                <span id="speed-knot">19.44</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </section>
 
             <!-- РАЗДЕЛ 3: ЗАДАЧИ НА СКОРОСТЬ -->
-            <section class="no-scroll">
-                <h2>Задачи на скорость</h2>
-                <h4>Формула: S = v × t</h4>
-                
-                <div style="margin: 15px 0; text-align: center;">
-                    <div style="font-size: 2em; color: #e74c3c; font-weight: bold; margin: 10px 0;">
+            <section>
+                <section>
+                    <h2>Задачи на скорость</h2>
+                    <p>Расчёт скорости, времени и расстояния</p>
+                </section>
+
+                <!-- ТЕОРИЯ -->
+                <section>
+                    <h3>Основная формула</h3>
+                    <div class="formula-box" style="text-align: center; font-size: 1.8rem;">
                         S = v × t
                     </div>
-                    <div style="display: flex; justify-content: center; gap: 30px; margin: 15px 0;">
-                        <div>S — расстояние</div>
-                        <div>v — скорость</div>
-                        <div>t — время</div>
+                    <ul>
+                        <li><strong>S</strong> — расстояние (м, км)</li>
+                        <li><strong>v</strong> — скорость (м/с, км/ч)</li>
+                        <li><strong>t</strong> — время (с, ч)</li>
+                    </ul>
+                    <div class="example-box">
+                        <p><strong>Производные формулы:</strong></p>
+                        <p>v = S / t</p>
+                        <p>t = S / v</p>
                     </div>
-                </div>
-                
-                <div style="background: #e8f4fc; padding: 10px; border-radius: 5px;">
-                    <p><strong>Пример:</strong> Автомобиль (90 км/ч) за 2.5 часа проедет:</p>
-                    <p style="text-align: center; font-weight: bold;">90 × 2.5 = 225 км</p>
-                </div>
+                </section>
+
+                <!-- ПРИМЕР РЕШЕНИЯ -->
+                <section>
+                    <h3>Пример решения задачи</h3>
+                    <div class="problem">
+                        <p><strong>Задача:</strong> Автомобиль едет со скоростью 90 км/ч. Какое расстояние он проедет за 2.5 часа?</p>
+                        
+                        <div class="solution-output">
+                            <p><strong>Дано:</strong></p>
+                            <p>v = 90 км/ч</p>
+                            <p>t = 2.5 ч</p>
+                            <p>S = ?</p>
+                            
+                            <p><strong>Решение:</strong></p>
+                            <p>Используем формулу S = v × t</p>
+                            <p>S = 90 км/ч × 2.5 ч = 225 км</p>
+                            
+                            <p class="answer"><strong>Ответ:</strong> 225 километров</p>
+                        </div>
+                    </div>
+                </section>
             </section>
 
-            <!-- ИНТЕРАКТИВНЫЙ РЕШАТЕЛЬ -->
-            <section class="no-scroll">
-                <h3>Интерактивный решатель</h3>
-                <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
-                    Заполните 2 поля, 3-е рассчитается
-                </p>
-                
-                <div class="compact-solver">
-                    <div style="margin-bottom: 10px;">
-                        <div style="font-weight: bold; margin-bottom: 3px;">Скорость (v):</div>
-                        <input type="number" id="speed-solver" placeholder="км/ч" value="90" class="compact-input" style="width: 100%;">
-                        <select id="speed-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
-                            <option value="kmh">км/ч</option>
-                            <option value="ms">м/с</option>
-                        </select>
-                    </div>
-                    
-                    <div style="margin-bottom: 10px;">
-                        <div style="font-weight: bold; margin-bottom: 3px;">Время (t):</div>
-                        <input type="number" id="time-solver" placeholder="часы" value="2.5" class="compact-input" style="width: 100%;">
-                        <select id="time-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
-                            <option value="h">часы</option>
-                            <option value="min">минуты</option>
-                        </select>
-                    </div>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <div style="font-weight: bold; margin-bottom: 3px;">Расстояние (S):</div>
-                        <input type="number" id="distance-solver" placeholder="км" class="compact-input" style="width: 100%;">
-                        <select id="distance-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
-                            <option value="km">км</option>
-                            <option value="m">м</option>
-                        </select>
-                    </div>
-                    
-                    <div id="solution-answer" style="background: #d4edda; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold;">
-                        Ответ: 225.00 км
-                    </div>
-                </div>
+            <!-- РАЗДЕЛ 4: ВЕСЁЛЫЕ КАРТИНКИ -->
+            <section>
+                <section>
+                    <h2>Весёлые картинки</h2>
+                    <p>Физика с юмором</p>
+                </section>
+
+                <section>
+                    <h3>Когда физик готовит</h3>
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&auto=format&fit=crop" 
+                         alt="Физика в кулинарии" class="fun-image">
+                    <p class="caption">"Измеряю температуру с точностью до кельвина"</p>
+                </section>
+
+                <section>
+                    <h3>Кот Шрёдингера сегодня</h3>
+                    <img src="https://images.unsplash.com/photo-1514888286974-6d03bde4ba0?w=600&auto=format&fit=crop" 
+                         alt="Кот и физика" class="fun-image">
+                    <p class="caption">"Я и жив, и мёртв, и хочу есть одновременно"</p>
+                </section>
             </section>
 
-            <!-- ВЕСЁЛЫЕ КАРТИНКИ -->
-            <section class="no-scroll">
-                <h2>Физика с юмором</h2>
-                <div style="text-align: center; margin-top: 15px;">
-                    <p><strong>Кот Шрёдингера:</strong></p>
-                    <p style="font-style: italic; color: #666;">"Я и жив, и мёртв, и хочу есть одновременно"</p>
-                </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <p><strong>Физик на кухне:</strong></p>
-                    <p style="font-style: italic; color: #666;">"Измеряю температуру с точностью до кельвина"</p>
-                </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <p><strong>Физик отдыхает:</strong></p>
-                    <p style="font-style: italic; color: #666;">"Рассчитываю траекторию падения в бассейн"</p>
-                </div>
-            </section>
-
-            <!-- ЗАКЛЮЧЕНИЕ -->
-            <section class="no-scroll">
+            <!-- ЗАКЛЮЧИТЕЛЬНЫЙ СЛАЙД -->
+            <section>
                 <h2>Спасибо за внимание!</h2>
-                
-                <div style="margin: 20px 0; text-align: center;">
-                    <p><strong>Ярышина Даниэла Павловна</strong></p>
-                    <p>Группа: Микн 4 курс</p>
-                    <p>Email: ultimate2588@gmail.com</p>
+                <div class="author-info">
+                    <p><i class="fas fa-user"></i> <strong>Ярышина Даниэла Павловна</strong></p>
+                    <p><i class="fas fa-users"></i> Группа: Микн 4 курс</p>
+                    <p><i class="fas fa-envelope"></i> Email: ultimate2588@gmail.com</p>
                 </div>
-                
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px;">
-                    <p style="font-weight: bold; margin-bottom: 10px;">Презентация включает:</p>
-                    <ul style="columns: 2; column-gap: 30px;">
-                        <li>7 категорий единиц</li>
-                        <li>4 конвертера</li>
-                        <li>Задачи на скорость</li>
-                        <li>Интерактивный решатель</li>
+                <div class="example-box">
+                    <p><strong>Презентация включает:</strong></p>
+                    <ul>
+                        <li>Основные единицы измерения</li>
+                        <li>Интерактивные конвертеры</li>
+                        <li>Теорию и задачи на скорость</li>
+                        <li>Юмористические иллюстрации</li>
                     </ul>
                 </div>
-                
-                <div style="margin-top: 20px; text-align: center; color: #e74c3c; font-weight: bold;">
+                <p style="text-align: center; margin-top: 20px; font-style: italic;">
                     Используйте знания физики в жизни!
-                </div>
+                </p>
             </section>
         </div>
     </div>
 
-    <!-- Reveal.js -->
+    <!-- Подключение библиотек -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
     
-    <!-- Наши скрипты -->
-    <script src="script.js"></script>
-    
     <script>
-        // Минимальная инициализация без навигации
+        // Простая инициализация Reveal.js
         Reveal.initialize({
             hash: true,
-            center: false,
-            slideNumber: true,
-            controls: true,
-            progress: true,
             transition: 'slide',
-            
-            // Упрощённые настройки для стабильности
-            viewDistance: 1,
-            mobileViewDistance: 1,
-            touch: true,
-            
-            // Ширина и высота на весь экран
+            backgroundTransition: 'fade',
             width: "100%",
             height: "100%",
-            margin: 0
+            margin: 0.04,
+            
+            // Упрощенные настройки для стабильности
+            controls: true,
+            progress: true,
+            center: true,
+            slideNumber: true
+        });
+        
+        // Обновляем индикатор прогресса
+        function updateProgress() {
+            const totalSlides = document.querySelectorAll('.slides section').length;
+            const currentSlide = Reveal.getState().indexh + 1;
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        Reveal.addEventListener('slidechanged', updateProgress);
+        Reveal.addEventListener('ready', updateProgress);
+        
+        // Конвертер температуры
+        document.getElementById('temp-convert')?.addEventListener('click', function() {
+            const input = parseFloat(document.getElementById('temp-input').value);
+            const from = document.getElementById('temp-from').value;
+            
+            let c, f, k;
+            
+            switch(from) {
+                case 'c':
+                    c = input;
+                    f = (c * 9/5) + 32;
+                    k = c + 273.15;
+                    break;
+                case 'f':
+                    f = input;
+                    c = (f - 32) * 5/9;
+                    k = c + 273.15;
+                    break;
+                case 'k':
+                    k = input;
+                    c = k - 273.15;
+                    f = (c * 9/5) + 32;
+                    break;
+            }
+            
+            document.getElementById('temp-c').textContent = c.toFixed(2);
+            document.getElementById('temp-f').textContent = f.toFixed(2);
+            document.getElementById('temp-k').textContent = k.toFixed(2);
+        });
+        
+        // Конвертер длины
+        document.getElementById('length-convert')?.addEventListener('click', function() {
+            const input = parseFloat(document.getElementById('length-input').value);
+            const from = document.getElementById('length-from').value;
+            
+            let m, km, mile, ft;
+            
+            switch(from) {
+                case 'm':
+                    m = input;
+                    break;
+                case 'km':
+                    m = input * 1000;
+                    break;
+                case 'mile':
+                    m = input * 1609.34;
+                    break;
+                case 'ft':
+                    m = input * 0.3048;
+                    break;
+            }
+            
+            km = m / 1000;
+            mile = m / 1609.34;
+            ft = m / 0.3048;
+            
+            document.getElementById('length-m').textContent = m.toFixed(2);
+            document.getElementById('length-km').textContent = km.toFixed(2);
+            document.getElementById('length-mile').textContent = mile.toFixed(2);
+            document.getElementById('length-ft').textContent = ft.toFixed(2);
+        });
+        
+        // Конвертер массы
+        document.getElementById('mass-convert')?.addEventListener('click', function() {
+            const input = parseFloat(document.getElementById('mass-input').value);
+            const from = document.getElementById('mass-from').value;
+            
+            let kg, g, lb, oz;
+            
+            switch(from) {
+                case 'kg':
+                    kg = input;
+                    break;
+                case 'g':
+                    kg = input / 1000;
+                    break;
+                case 'lb':
+                    kg = input * 0.453592;
+                    break;
+                case 'oz':
+                    kg = input * 0.0283495;
+                    break;
+            }
+            
+            g = kg * 1000;
+            lb = kg / 0.453592;
+            oz = kg / 0.0283495;
+            
+            document.getElementById('mass-kg').textContent = kg.toFixed(2);
+            document.getElementById('mass-g').textContent = g.toFixed(2);
+            document.getElementById('mass-lb').textContent = lb.toFixed(2);
+            document.getElementById('mass-oz').textContent = oz.toFixed(2);
+        });
+        
+        // Конвертер скорости
+        document.getElementById('speed-convert')?.addEventListener('click', function() {
+            const input = parseFloat(document.getElementById('speed-input').value);
+            const from = document.getElementById('speed-from').value;
+            
+            let ms, kmh, mph, knot;
+            
+            switch(from) {
+                case 'ms':
+                    ms = input;
+                    break;
+                case 'kmh':
+                    ms = input / 3.6;
+                    break;
+                case 'mph':
+                    ms = input * 0.44704;
+                    break;
+                case 'knot':
+                    ms = input * 0.514444;
+                    break;
+            }
+            
+            kmh = ms * 3.6;
+            mph = ms / 0.44704;
+            knot = ms / 0.514444;
+            
+            document.getElementById('speed-ms').textContent = ms.toFixed(2);
+            document.getElementById('speed-kmh').textContent = kmh.toFixed(2);
+            document.getElementById('speed-mph').textContent = mph.toFixed(2);
+            document.getElementById('speed-knot').textContent = knot.toFixed(2);
+        });
+        
+        // Инициализация конвертеров
+        window.addEventListener('load', function() {
+            // Триггерим все конвертеры для начальных значений
+            ['temp-convert', 'length-convert', 'mass-convert', 'speed-convert'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.click();
+            });
         });
     </script>
 </body>
