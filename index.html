@@ -3,511 +3,568 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Физика: Электромагнитная индукция</title>
+    <title>Физика: Единицы измерения</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="theme.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        /* ФИКСЫ ДЛЯ КОМПАКТНЫХ СЛАЙДОВ */
+        .reveal {
+            font-size: 20px !important; /* Уменьшаем общий размер текста */
+        }
+        
+        .reveal .slides {
+            width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+            left: 0 !important;
+        }
+        
+        .reveal .slides section {
+            padding: 10px !important;
             box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .slides-container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-        }
-
-        .slide {
-            flex: 0 0 100vw;
-            height: 100vh;
-            padding: 60px 80px;
-            scroll-snap-align: start;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .slide-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 100%;
-            display: flex;
+            display: flex !important;
             flex-direction: column;
             justify-content: center;
+            min-height: 100vh;
+            overflow: visible !important;
         }
-
-        /* Стили для слайда с содержанием */
+        
+        /* Уменьшаем заголовки */
+        .reveal h1 { font-size: 2.2em !important; margin-bottom: 0.5em !important; }
+        .reveal h2 { font-size: 1.8em !important; margin-bottom: 0.5em !important; }
+        .reveal h3 { font-size: 1.4em !important; margin-bottom: 0.5em !important; }
+        .reveal h4 { font-size: 1.2em !important; }
+        
+        /* Компактные списки */
+        .reveal ul, .reveal ol {
+            margin: 0.3em 0 !important;
+            padding-left: 1.2em !important;
+        }
+        
+        .reveal li {
+            margin: 0.2em 0 !important;
+            font-size: 0.9em !important;
+            line-height: 1.3 !important;
+        }
+        
+        /* Уменьшаем отступы */
+        .reveal p {
+            margin: 0.3em 0 !important;
+            line-height: 1.3 !important;
+        }
+        
+        /* Компактные конвертеры */
+        .compact-converter {
+            max-width: 700px;
+            margin: 10px auto;
+            padding: 10px;
+        }
+        
+        .compact-input {
+            padding: 6px !important;
+            font-size: 0.9em !important;
+            margin: 3px 0 !important;
+        }
+        
+        .compact-btn {
+            padding: 8px 15px !important;
+            font-size: 0.9em !important;
+            margin: 5px 0 !important;
+        }
+        
+        .compact-results {
+            margin-top: 10px !important;
+            gap: 8px !important;
+        }
+        
+        .compact-result {
+            padding: 8px !important;
+            font-size: 0.9em !important;
+        }
+        
+        /* Слайд с содержанием */
         .toc-slide {
-            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
-        }
-
-        .toc-slide .slide-content {
             text-align: center;
         }
-
-        .toc-title {
-            font-size: 3.5rem;
-            color: #4cc9f0;
-            margin-bottom: 60px;
-            text-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+        
+        .toc-item {
+            display: block;
+            margin: 8px auto;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            max-width: 500px;
+            font-size: 0.95em;
         }
-
-        .toc-list {
-            list-style: none;
-            font-size: 2.2rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
+        
+        /* Убираем скролл - всё должно помещаться */
+        .no-scroll {
+            overflow: hidden !important;
+            max-height: 85vh !important;
         }
-
-        .toc-list li {
-            margin: 25px 0;
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            border-left: 5px solid #4cc9f0;
-            transition: all 0.3s ease;
+        
+        /* Компактный решатель задач */
+        .compact-solver {
+            max-width: 600px;
+            margin: 10px auto;
         }
-
-        .toc-list li:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(10px);
-        }
-
-        .toc-list .slide-number {
-            display: inline-block;
-            width: 50px;
-            color: #4cc9f0;
-            font-weight: bold;
-        }
-
-        .instruction {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 40px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-
-        /* Стили для обычных слайдов */
-        .slide:nth-child(even) {
-            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
-        }
-
-        .slide:nth-child(odd):not(.toc-slide) {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        }
-
-        h1 {
-            font-size: 3.2rem;
-            color: #4cc9f0;
-            margin-bottom: 40px;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            color: #72efdd;
-            margin: 30px 0 20px 0;
-        }
-
-        p {
-            font-size: 1.6rem;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            color: #e0f7fa;
-        }
-
-        ul, ol {
-            font-size: 1.5rem;
-            line-height: 1.7;
-            margin-left: 30px;
-            margin-bottom: 25px;
-            color: #e0f7fa;
-        }
-
-        li {
-            margin-bottom: 12px;
-        }
-
-        .highlight {
-            color: #ffb74d;
-            font-weight: 600;
-        }
-
-        .formula {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            border-left: 5px solid #ff4081;
-            font-size: 1.7rem;
-            text-align: center;
-        }
-
-        .slide-number {
-            position: absolute;
-            bottom: 30px;
-            right: 50px;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Индикатор прокрутки */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px 20px;
-            border-radius: 20px;
-            z-index: 100;
-        }
-
-        @media (max-width: 768px) {
-            .slide {
-                padding: 40px 25px;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            h2 {
-                font-size: 2rem;
-            }
-            
-            p, ul, ol {
-                font-size: 1.4rem;
-            }
-            
-            .formula {
-                font-size: 1.5rem;
-                padding: 20px;
-            }
-            
-            .toc-title {
-                font-size: 2.8rem;
-            }
-            
-            .toc-list {
-                font-size: 1.8rem;
-            }
+        
+        .compact-solver input {
+            padding: 5px !important;
+            margin: 2px 0 !important;
         }
     </style>
 </head>
 <body>
-    <div class="scroll-indicator">Используйте колесико мыши или стрелки клавиатуры для навигации</div>
+    <div class="reveal">
+        <div class="slides">
+            <!-- СЛАЙД 1: ТИТУЛЬНЫЙ -->
+            <section class="no-scroll">
+                <h1>Физика</h1>
+                <h3>Единицы измерения и конвертация</h3>
+                <div style="margin-top: 20px;">
+                    <p><strong>Ярышина Даниэла Павловна</strong></p>
+                    <p>Группа: Микн 4 курс</p>
+                    <p>Email: ultimate2588@gmail.com</p>
+                </div>
+            </section>
 
-    <div class="slides-container">
-        <!-- Слайд 1: Содержание -->
-        <div class="slide toc-slide">
-            <div class="slide-content">
-                <h1 class="toc-title">Электромагнитная индукция</h1>
-                <ul class="toc-list">
-                    <li><span class="slide-number">1</span> Что такое электромагнитная индукция</li>
-                    <li><span class="slide-number">2</span> Опыты Майкла Фарадея</li>
-                    <li><span class="slide-number">3</span> Закон электромагнитной индукции</li>
-                    <li><span class="slide-number">4</span> Правило Ленца</li>
-                    <li><span class="slide-number">5</span> Вихревые токи (токи Фуко)</li>
-                    <li><span class="slide-number">6</span> Самоиндукция</li>
-                    <li><span class="slide-number">7</span> Применение в технике</li>
-                    <li><span class="slide-number">8</span> Заключение</li>
-                </ul>
-                <p class="instruction">Для перехода между слайдами используйте колесико мыши, стрелки клавиатуры или смахивание на сенсорных устройствах</p>
-            </div>
-            <div class="slide-number">Слайд 1</div>
-        </div>
+            <!-- СЛАЙД 2: СОДЕРЖАНИЕ -->
+            <section class="toc-slide no-scroll">
+                <h2>Содержание презентации</h2>
+                <div style="margin: 15px 0;">
+                    <div class="toc-item">1. Единицы измерения (7 категорий)</div>
+                    <div class="toc-item">2. Конвертер температуры</div>
+                    <div class="toc-item">3. Конвертер длины</div>
+                    <div class="toc-item">4. Конвертер массы</div>
+                    <div class="toc-item">5. Конвертер скорости</div>
+                    <div class="toc-item">6. Задачи на скорость</div>
+                    <div class="toc-item">7. Весёлые картинки</div>
+                </div>
+                <p style="font-size: 0.8em; margin-top: 20px; color: #666;">
+                    Используйте стрелки ← → для навигации
+                </p>
+            </section>
 
-        <!-- Слайд 2: Что такое электромагнитная индукция -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Что такое электромагнитная индукция?</h1>
-                <p><span class="highlight">Электромагнитная индукция</span> — это явление возникновения электрического тока в замкнутом контуре при изменении магнитного потока через этот контур.</p>
+            <!-- РАЗДЕЛ 1: ЕДИНИЦЫ ИЗМЕРЕНИЯ -->
+            <section class="no-scroll">
+                <h2>Единицы измерения</h2>
+                <h4>Основные физические величины</h4>
                 
-                <p>Это фундаментальное явление было открыто Майклом Фарадеем в 1831 году и легло в основу работы большинства современных электрических устройств.</p>
-                
-                <h2>Основные понятия:</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div>
+                        <p><strong>Скорость:</strong></p>
+                        <ul>
+                            <li>м/с (метр/секунда)</li>
+                            <li>км/ч (километр/час)</li>
+                            <li>узлы (морские)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Температура:</strong></p>
+                        <ul>
+                            <li>°C (Цельсий)</li>
+                            <li>K (Кельвин)</li>
+                            <li>°F (Фаренгейт)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Длина:</strong></p>
+                        <ul>
+                            <li>м (метр)</li>
+                            <li>км (километр)</li>
+                            <li>мили, футы</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Масса:</strong></p>
+                        <ul>
+                            <li>кг (килограмм)</li>
+                            <li>г (грамм)</li>
+                            <li>фунты, унции</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- СКОРОСТЬ подробнее -->
+            <section class="no-scroll">
+                <h3>Скорость</h3>
                 <ul>
-                    <li><span class="highlight">Магнитный поток (Φ)</span> — величина, характеризующая количество магнитных линий, проходящих через контур</li>
-                    <li><span class="highlight">Индукционный ток</span> — ток, возникающий в контуре при изменении магнитного потока</li>
-                    <li><span class="highlight">ЭДС индукции (ε)</span> — электродвижущая сила, вызывающая индукционный ток</li>
+                    <li><strong>м/с</strong> - базовая единица СИ</li>
+                    <li><strong>км/ч</strong> - транспорт, погода</li>
+                    <li><strong>узлы</strong> - морская навигация</li>
+                    <li><strong>махи</strong> - авиация</li>
+                    <li><strong>c</strong> - скорость света</li>
                 </ul>
-            </div>
-            <div class="slide-number">Слайд 2</div>
-        </div>
+                <div style="background: #e8f4fc; padding: 8px; border-radius: 5px; margin-top: 10px;">
+                    <p><strong>Пример:</strong> 60 км/ч = 16.67 м/с</p>
+                </div>
+            </section>
 
-        <!-- Слайд 3: Опыты Фарадея -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Опыты Майкла Фарадея</h1>
+            <!-- ТЕМПЕРАТУРА подробнее -->
+            <section class="no-scroll">
+                <h3>Температура</h3>
+                <ul>
+                    <li><strong>°C</strong> - бытовые измерения</li>
+                    <li><strong>K</strong> - научные расчёты</li>
+                    <li><strong>°F</strong> - США, приборы</li>
+                </ul>
+                <div style="background: #e8f4fc; padding: 8px; border-radius: 5px; margin-top: 10px;">
+                    <p><strong>Формулы:</strong></p>
+                    <p>K = °C + 273.15</p>
+                    <p>°F = °C × 9/5 + 32</p>
+                </div>
+            </section>
+
+            <!-- ДЛИНА подробнее -->
+            <section class="no-scroll">
+                <h3>Длина</h3>
+                <ul>
+                    <li><strong>м</strong> - базовая единица СИ</li>
+                    <li><strong>км</strong> - географические расстояния</li>
+                    <li><strong>см</strong> - бытовые измерения</li>
+                    <li><strong>миля</strong> - 1609.34 м</li>
+                    <li><strong>световой год</strong> - астрономия</li>
+                </ul>
+            </section>
+
+            <!-- МАССА подробнее -->
+            <section class="no-scroll">
+                <h3>Масса</h3>
+                <ul>
+                    <li><strong>кг</strong> - базовая единица СИ</li>
+                    <li><strong>г</strong> - кулинария, химия</li>
+                    <li><strong>т</strong> - промышленность</li>
+                    <li><strong>фунт</strong> - 0.4536 кг</li>
+                    <li><strong>унция</strong> - 28.35 г</li>
+                </ul>
+            </section>
+
+            <!-- ПЛОЩАДЬ, ОБЪЕМ, ДАВЛЕНИЕ в одном слайде -->
+            <section class="no-scroll">
+                <h3>Площадь, Объём, Давление</h3>
                 
-                <p>В своих знаменитых экспериментах Фарадей обнаружил, что электрический ток возникает в цепи только при изменении магнитного поля.</p>
-                
-                <h2>Ключевые эксперименты:</h2>
-                <ol>
-                    <li>При движении магнита относительно катушки в ней возникает ток</li>
-                    <li>При изменении тока в соседней катушке во второй катушке также возникает ток</li>
-                    <li>Ток возникает только во время движения магнита или изменения тока</li>
-                </ol>
-                
-                <div class="formula">
-                    Ток возникает ⇔ Магнитный поток изменяется
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div>
+                        <p><strong>Площадь:</strong></p>
+                        <ul>
+                            <li>м² (кв. метр)</li>
+                            <li>км² (кв. километр)</li>
+                            <li>га (гектар)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Объём:</strong></p>
+                        <ul>
+                            <li>м³ (куб. метр)</li>
+                            <li>л (литр)</li>
+                            <li>мл (миллилитр)</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <p>Это открытие показало глубокую связь между электрическими и магнитными явлениями.</p>
-            </div>
-            <div class="slide-number">Слайд 3</div>
-        </div>
+                <div style="margin-top: 15px;">
+                    <p><strong>Давление:</strong></p>
+                    <ul>
+                        <li>Па (паскаль)</li>
+                        <li>кПа (килопаскаль)</li>
+                        <li>бар, атм, мм рт.ст.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <!-- Слайд 4: Закон электромагнитной индукции -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Закон электромагнитной индукции</h1>
+            <!-- РАЗДЕЛ 2: КОНВЕРТЕРЫ -->
+            <section class="no-scroll">
+                <h2>Конвертер температуры</h2>
+                <div class="compact-converter">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="temp-input" class="compact-input" placeholder="Значение" value="20" step="0.1" style="flex: 1;">
+                        <select id="temp-from" class="compact-input" style="width: 150px;">
+                            <option value="c">°C (Цельсий)</option>
+                            <option value="f">°F (Фаренгейт)</option>
+                            <option value="k">K (Кельвин)</option>
+                        </select>
+                    </div>
+                    
+                    <button id="temp-convert" class="compact-btn">
+                        <i class="fas fa-sync-alt"></i> Конвертировать
+                    </button>
+                    
+                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px;">
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">°C</div>
+                            <div id="temp-c" style="color: #2ecc71; font-weight: bold;">20.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">°F</div>
+                            <div id="temp-f" style="color: #2ecc71; font-weight: bold;">68.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">K</div>
+                            <div id="temp-k" style="color: #2ecc71; font-weight: bold;">293.15</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- КОНВЕРТЕР ДЛИНЫ -->
+            <section class="no-scroll">
+                <h2>Конвертер длины</h2>
+                <div class="compact-converter">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="length-input" class="compact-input" placeholder="Значение" value="100" step="0.01" style="flex: 1;">
+                        <select id="length-from" class="compact-input" style="width: 150px;">
+                            <option value="m">Метры (м)</option>
+                            <option value="km">Километры (км)</option>
+                            <option value="mile">Мили</option>
+                        </select>
+                    </div>
+                    
+                    <button id="length-convert" class="compact-btn">
+                        <i class="fas fa-sync-alt"></i> Конвертировать
+                    </button>
+                    
+                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Метры</div>
+                            <div id="length-m" style="color: #2ecc71; font-weight: bold;">100.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Километры</div>
+                            <div id="length-km" style="color: #2ecc71; font-weight: bold;">0.10</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Мили</div>
+                            <div id="length-mile" style="color: #2ecc71; font-weight: bold;">0.06</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Футы</div>
+                            <div id="length-ft" style="color: #2ecc71; font-weight: bold;">328.08</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- КОНВЕРТЕР МАССЫ -->
+            <section class="no-scroll">
+                <h2>Конвертер массы</h2>
+                <div class="compact-converter">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="mass-input" class="compact-input" placeholder="Значение" value="1" step="0.01" style="flex: 1;">
+                        <select id="mass-from" class="compact-input" style="width: 150px;">
+                            <option value="kg">Килограммы (кг)</option>
+                            <option value="g">Граммы (г)</option>
+                            <option value="lb">Фунты (lb)</option>
+                        </select>
+                    </div>
+                    
+                    <button id="mass-convert" class="compact-btn">
+                        <i class="fas fa-sync-alt"></i> Конвертировать
+                    </button>
+                    
+                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Килограммы</div>
+                            <div id="mass-kg" style="color: #2ecc71; font-weight: bold;">1.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Граммы</div>
+                            <div id="mass-g" style="color: #2ecc71; font-weight: bold;">1000.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Фунты</div>
+                            <div id="mass-lb" style="color: #2ecc71; font-weight: bold;">2.20</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">Унции</div>
+                            <div id="mass-oz" style="color: #2ecc71; font-weight: bold;">35.27</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- КОНВЕРТЕР СКОРОСТИ -->
+            <section class="no-scroll">
+                <h2>Конвертер скорости</h2>
+                <div class="compact-converter">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="speed-input" class="compact-input" placeholder="Значение" value="10" step="0.1" style="flex: 1;">
+                        <select id="speed-from" class="compact-input" style="width: 150px;">
+                            <option value="ms">м/с</option>
+                            <option value="kmh">км/ч</option>
+                            <option value="mph">миль/ч</option>
+                        </select>
+                    </div>
+                    
+                    <button id="speed-convert" class="compact-btn">
+                        <i class="fas fa-sync-alt"></i> Конвертировать
+                    </button>
+                    
+                    <div class="compact-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">м/с</div>
+                            <div id="speed-ms" style="color: #2ecc71; font-weight: bold;">10.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">км/ч</div>
+                            <div id="speed-kmh" style="color: #2ecc71; font-weight: bold;">36.00</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">миль/ч</div>
+                            <div id="speed-mph" style="color: #2ecc71; font-weight: bold;">22.37</div>
+                        </div>
+                        <div class="compact-result" style="text-align: center; background: #f8f9fa; border-radius: 5px;">
+                            <div style="font-weight: bold;">узлы</div>
+                            <div id="speed-knot" style="color: #2ecc71; font-weight: bold;">19.44</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- РАЗДЕЛ 3: ЗАДАЧИ НА СКОРОСТЬ -->
+            <section class="no-scroll">
+                <h2>Задачи на скорость</h2>
+                <h4>Формула: S = v × t</h4>
                 
-                <p>ЭДС индукции в замкнутом контуре равна скорости изменения магнитного потока через этот контур:</p>
-                
-                <div class="formula">
-                    ε = -dΦ/dt
+                <div style="margin: 15px 0; text-align: center;">
+                    <div style="font-size: 2em; color: #e74c3c; font-weight: bold; margin: 10px 0;">
+                        S = v × t
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 30px; margin: 15px 0;">
+                        <div>S — расстояние</div>
+                        <div>v — скорость</div>
+                        <div>t — время</div>
+                    </div>
                 </div>
                 
-                <p>где:</p>
-                <ul>
-                    <li><span class="highlight">ε</span> — ЭДС индукции (Вольты)</li>
-                    <li><span class="highlight">Φ</span> — магнитный поток (Веберы)</li>
-                    <li><span class="highlight">dΦ/dt</span> — скорость изменения магнитного потока</li>
-                    <li><span class="highlight">Знак минус</span> — отражает правило Ленца</li>
-                </ul>
-                
-                <h2>Магнитный поток рассчитывается как:</h2>
-                <div class="formula">
-                    Φ = B × S × cos α
+                <div style="background: #e8f4fc; padding: 10px; border-radius: 5px;">
+                    <p><strong>Пример:</strong> Автомобиль (90 км/ч) за 2.5 часа проедет:</p>
+                    <p style="text-align: center; font-weight: bold;">90 × 2.5 = 225 км</p>
                 </div>
-                <p>где B — магнитная индукция, S — площадь контура, α — угол между нормалью к контуру и вектором B.</p>
-            </div>
-            <div class="slide-number">Слайд 4</div>
-        </div>
+            </section>
 
-        <!-- Слайд 5: Правило Ленца -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Правило Ленца</h1>
+            <!-- ИНТЕРАКТИВНЫЙ РЕШАТЕЛЬ -->
+            <section class="no-scroll">
+                <h3>Интерактивный решатель</h3>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
+                    Заполните 2 поля, 3-е рассчитается
+                </p>
                 
-                <p>Правило Ленца определяет направление индукционного тока:</p>
-                
-                <div class="formula">
-                    Индукционный ток всегда направлен так, чтобы противодействовать причине, его вызвавшей
+                <div class="compact-solver">
+                    <div style="margin-bottom: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 3px;">Скорость (v):</div>
+                        <input type="number" id="speed-solver" placeholder="км/ч" value="90" class="compact-input" style="width: 100%;">
+                        <select id="speed-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
+                            <option value="kmh">км/ч</option>
+                            <option value="ms">м/с</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 3px;">Время (t):</div>
+                        <input type="number" id="time-solver" placeholder="часы" value="2.5" class="compact-input" style="width: 100%;">
+                        <select id="time-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
+                            <option value="h">часы</option>
+                            <option value="min">минуты</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: bold; margin-bottom: 3px;">Расстояние (S):</div>
+                        <input type="number" id="distance-solver" placeholder="км" class="compact-input" style="width: 100%;">
+                        <select id="distance-unit" class="compact-input" style="width: 100%; margin-top: 3px;">
+                            <option value="km">км</option>
+                            <option value="m">м</option>
+                        </select>
+                    </div>
+                    
+                    <div id="solution-answer" style="background: #d4edda; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold;">
+                        Ответ: 225.00 км
+                    </div>
                 </div>
-                
-                <h2>Примеры применения правила:</h2>
-                <ul>
-                    <li>При приближении магнита к катушке возникает ток, создающий магнитное поле, отталкивающее магнит</li>
-                    <li>При удалении магнита от катушки возникает ток, притягивающий магнит</li>
-                    <li>Это проявление закона сохранения энергии</li>
-                </ul>
-                
-                <p>Правило Ленца объясняет знак "минус" в законе электромагнитной индукции Фарадея.</p>
-            </div>
-            <div class="slide-number">Слайд 5</div>
-        </div>
+            </section>
 
-        <!-- Слайд 6: Вихревые токи -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Вихревые токи (токи Фуко)</h1>
-                
-                <p>При изменении магнитного поля в массивных проводниках возникают замкнутые индукционные токи — вихревые токи.</p>
-                
-                <h2>Особенности токов Фуко:</h2>
-                <ul>
-                    <li>Возникают в сплошных проводниках</li>
-                    <li>Имеют замкнутую кольцевую форму</li>
-                    <li>Вызывают нагревание проводника</li>
-                    <li>Создают собственное магнитное поле</li>
-                </ul>
-                
-                <h2>Применение и борьба с вихревыми токами:</h2>
-                <ol>
-                    <li><span class="highlight">Полезное применение:</span> индукционные печи, торможение в приборах</li>
-                    <li><span class="highlight">Борьба с потерями:</span> сердечники трансформаторов делают из изолированных пластин</li>
-                    <li><span class="highlight">Индукционные плиты:</span> нагрев посуды вихревыми токами</li>
-                </ol>
-            </div>
-            <div class="slide-number">Слайд 6</div>
-        </div>
-
-        <!-- Слайд 7: Самоиндукция -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Самоиндукция</h1>
-                
-                <p>Явление возникновения ЭДС индукции в проводнике при изменении силы тока в нем самом.</p>
-                
-                <div class="formula">
-                    εₛ = -L × di/dt
+            <!-- ВЕСЁЛЫЕ КАРТИНКИ -->
+            <section class="no-scroll">
+                <h2>Физика с юмором</h2>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p><strong>Кот Шрёдингера:</strong></p>
+                    <p style="font-style: italic; color: #666;">"Я и жив, и мёртв, и хочу есть одновременно"</p>
                 </div>
                 
-                <p>где:</p>
-                <ul>
-                    <li><span class="highlight">L</span> — индуктивность проводника (Генри)</li>
-                    <li><span class="highlight">di/dt</span> — скорость изменения тока</li>
-                    <li><span class="highlight">εₛ</span> — ЭДС самоиндукции</li>
-                </ul>
-                
-                <h2>Индуктивность зависит от:</h2>
-                <ol>
-                    <li>Формы и размеров проводника</li>
-                    <li>Числа витков в катушке</li>
-                    <li>Наличия магнитного сердечника</li>
-                </ol>
-                
-                <p>Самоиндукция — причина возникновения искр при размыкании цепи с катушкой.</p>
-            </div>
-            <div class="slide-number">Слайд 7</div>
-        </div>
-
-        <!-- Слайд 8: Применение в технике -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Применение в технике</h1>
-                
-                <p>Явление электромагнитной индукции лежит в основе работы множества устройств.</p>
-                
-                <h2>Основные применения:</h2>
-                <ul>
-                    <li><span class="highlight">Генераторы электрического тока</span> — преобразование механической энергии в электрическую</li>
-                    <li><span class="highlight">Трансформаторы</span> — изменение напряжения переменного тока</li>
-                    <li><span class="highlight">Индукционные печи</span> — бесконтактный нагрев металлов</li>
-                    <li><span class="highlight">Электромагниты</span> — подъемные краны, магнитные сепараторы</li>
-                    <li><span class="highlight">Беспроводная зарядка</span> — передача энергии через индукцию</li>
-                </ul>
-                
-                <p>Без открытия Фарадея невозможно представить современную электроэнергетику и электронику.</p>
-            </div>
-            <div class="slide-number">Слайд 8</div>
-        </div>
-
-        <!-- Слайд 9: Заключение -->
-        <div class="slide">
-            <div class="slide-content">
-                <h1>Заключение</h1>
-                
-                <p>Электромагнитная индукция — одно из важнейших открытий в физике, связавшее электричество и магнетизм в единую теорию.</p>
-                
-                <h2>Ключевые выводы:</h2>
-                <ol>
-                    <li>Электрический ток возникает при изменении магнитного потока</li>
-                    <li>Направление тока определяется правилом Ленца</li>
-                    <li>ЭДС индукции пропорциональна скорости изменения потока</li>
-                    <li>Явление имеет множество практических применений</li>
-                </ol>
-                
-                <div class="formula">
-                    Открытие Фарадея → Теория Максвелла → Современная электротехника
+                <div style="text-align: center; margin-top: 20px;">
+                    <p><strong>Физик на кухне:</strong></p>
+                    <p style="font-style: italic; color: #666;">"Измеряю температуру с точностью до кельвина"</p>
                 </div>
                 
-                <p>Понимание электромагнитной индукции необходимо для разработки новых технологий и устройств будущего.</p>
-            </div>
-            <div class="slide-number">Слайд 9</div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p><strong>Физик отдыхает:</strong></p>
+                    <p style="font-style: italic; color: #666;">"Рассчитываю траекторию падения в бассейн"</p>
+                </div>
+            </section>
+
+            <!-- ЗАКЛЮЧЕНИЕ -->
+            <section class="no-scroll">
+                <h2>Спасибо за внимание!</h2>
+                
+                <div style="margin: 20px 0; text-align: center;">
+                    <p><strong>Ярышина Даниэла Павловна</strong></p>
+                    <p>Группа: Микн 4 курс</p>
+                    <p>Email: ultimate2588@gmail.com</p>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px;">
+                    <p style="font-weight: bold; margin-bottom: 10px;">Презентация включает:</p>
+                    <ul style="columns: 2; column-gap: 30px;">
+                        <li>7 категорий единиц</li>
+                        <li>4 конвертера</li>
+                        <li>Задачи на скорость</li>
+                        <li>Интерактивный решатель</li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; color: #e74c3c; font-weight: bold;">
+                    Используйте знания физики в жизни!
+                </div>
+            </section>
         </div>
     </div>
 
+    <!-- Reveal.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    
+    <!-- Наши скрипты -->
+    <script src="script.js"></script>
+    
     <script>
-        // Улучшенная навигация по слайдам
-        document.addEventListener('DOMContentLoaded', function() {
-            const slidesContainer = document.querySelector('.slides-container');
-            let currentSlide = 0;
-            const totalSlides = document.querySelectorAll('.slide').length;
+        // Минимальная инициализация без навигации
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            slideNumber: true,
+            controls: true,
+            progress: true,
+            transition: 'slide',
             
-            // Прокрутка колесиком мыши
-            slidesContainer.addEventListener('wheel', function(e) {
-                e.preventDefault();
-                if (e.deltaY > 0) {
-                    // Прокрутка вниз - следующий слайд
-                    currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
-                } else {
-                    // Прокрутка вверх - предыдущий слайд
-                    currentSlide = Math.max(currentSlide - 1, 0);
-                }
-                slidesContainer.scrollTo({
-                    left: currentSlide * window.innerWidth,
-                    behavior: 'smooth'
-                });
-            });
+            // Упрощённые настройки для стабильности
+            viewDistance: 1,
+            mobileViewDistance: 1,
+            touch: true,
             
-            // Навигация стрелками клавиатуры
-            document.addEventListener('keydown', function(e) {
-                switch(e.key) {
-                    case 'ArrowRight':
-                    case 'ArrowDown':
-                    case ' ':
-                        e.preventDefault();
-                        currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
-                        break;
-                    case 'ArrowLeft':
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        currentSlide = Math.max(currentSlide - 1, 0);
-                        break;
-                    case 'Home':
-                        e.preventDefault();
-                        currentSlide = 0;
-                        break;
-                    case 'End':
-                        e.preventDefault();
-                        currentSlide = totalSlides - 1;
-                        break;
-                }
-                slidesContainer.scrollTo({
-                    left: currentSlide * window.innerWidth,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // Следим за текущим слайдом при скролле
-            slidesContainer.addEventListener('scroll', function() {
-                currentSlide = Math.round(slidesContainer.scrollLeft / window.innerWidth);
-            });
-            
-            // Сенсорная навигация для мобильных устройств
-            let startX = 0;
-            let endX = 0;
-            
-            slidesContainer.addEventListener('touchstart', function(e) {
-                startX = e.touches[0].clientX;
-            });
-            
-            slidesContainer.addEventListener('touchend', function(e) {
-                endX = e.changedTouches[0].clientX;
-                const diffX = startX - endX;
-                
-                if (Math.abs(diffX) > 50) { // Минимальное расстояние свайпа
-                    if (diffX > 0) {
-                        // Свайп влево - следующий слайд
-                        currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
-                    } else {
-                        // Свайп вправо - предыдущий слайд
-                        currentSlide = Math.max(currentSlide - 1, 0);
-                    }
-                    slidesContainer.scrollTo({
-                        left: currentSlide * window.innerWidth,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+            // Ширина и высота на весь экран
+            width: "100%",
+            height: "100%",
+            margin: 0
         });
     </script>
 </body>
